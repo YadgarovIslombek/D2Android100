@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.d2android100.R
 import com.example.d2android100.databinding.ActivityMainBinding
 import com.example.d2android100.domain.ShopItem
@@ -13,51 +16,67 @@ import com.example.d2android100.domain.ShopItem
 class MainActivity : AppCompatActivity() {
     private lateinit var myViewModel: MyViewModel
     lateinit var binding: ActivityMainBinding
+    lateinit var shopAdapter: ShopListAdapter
     private var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
-
+        setupRecylerView()
         myViewModel.shopList.observe(this) {
-//            Log.d("TAG", "onCreate: $it ")
-//            if (count == 0) {
-//
-//                val shopItem = it[0]
-//                myViewModel.enabled(shopItem)
-//                count++
-//            }
-            showView(it)
+            shopAdapter.shopList = it
+        }
+    }
 
+    private fun setupRecylerView() {
+        shopAdapter = ShopListAdapter()
+
+        shopAdapter.onShopItemLongClickListener =
+            object : ShopListAdapter.OnShopItemLongClickListener {
+                override fun onShopItemLongClick(shopItem: ShopItem) {
+                    myViewModel.enabled(shopItem)
+                }
+            }
+        shopAdapter.onShopItemClickListener = {
+            Log.d("TAG", "setupRecylerView: $it")
         }
 
+        val callback = object :
+            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
 
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                Log.d("DIRECTION", "onSwiped: $direction")
+                if (direction == 8) {
+                    val item = shopAdapter.shopList[viewHolder.adapterPosition]
+                    myViewModel.deleteShopItem(item)
+                }else{
+                    Toast.makeText(this@MainActivity, "bu chapga", Toast.LENGTH_SHORT).show()
+                    return
+                }
+            }
+
+
+        }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(binding.rec)
+        binding.rec.recycledViewPool.setMaxRecycledViews(
+            ShopListAdapter.ENABLED_VIEW,
+            ShopListAdapter.POOL_SIZE
+        )
+        binding.rec.recycledViewPool.setMaxRecycledViews(
+            ShopListAdapter.DISABLED_VIEW,
+            ShopListAdapter.POOL_SIZE
+        )
+        binding.rec.adapter = shopAdapter
     }
 
 
-    private fun showView(list: List<ShopItem>) {
-        binding.ll.removeAllViews()
-        for (shopItem in list) {
-            val id_l = if (shopItem.enabled) {
-                R.layout.item_view_enabled
-            } else {
-                R.layout.item_view_disabled
-            }
-                val view = LayoutInflater.from(this).inflate(id_l,binding.ll,false)
-            val count = view.findViewById<TextView>(R.id.id1)
-            val name = view.findViewById<TextView>(R.id.name)
-
-            count.text = shopItem.count.toString()
-            name.text = shopItem.item_name.toString()
-            view.setOnLongClickListener{
-                myViewModel.enabled(shopItem)
-                true
-            }
-            view.setOnClickListener {
-                myViewModel.deleteShopItem(shopItem)
-            }
-            binding.ll.addView(view)
-        }
-    }
 }

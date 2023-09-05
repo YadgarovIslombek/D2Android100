@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.d2android100.domain.ShopItem
 import com.example.d2android100.domain.ShopItemRepository
+import java.util.Random
 
 object ShopListItemRepositoryImpl : ShopItemRepository {
     private val list = sortedSetOf(Comparator<ShopItem> { o1, o2 -> o1.id.compareTo(o2.id) })
@@ -11,8 +12,8 @@ object ShopListItemRepositoryImpl : ShopItemRepository {
     private val ld = MutableLiveData<List<ShopItem>>()
 
     init {
-        for (i in 0 .. 10000){
-            val shop  = ShopItem("Item $i",i,true)
+        for (i in 0 .. 1000){
+            val shop  = ShopItem("Item $i",i,kotlin.random.Random.nextBoolean())
             addShopItem(shop)
         }
     }

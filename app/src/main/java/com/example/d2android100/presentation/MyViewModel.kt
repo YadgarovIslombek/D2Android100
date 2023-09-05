@@ -23,7 +23,6 @@ class MyViewModel:ViewModel() {
     fun enabled(shopItem: ShopItem){
         val newValue = shopItem.copy(enabled = !shopItem.enabled)
         editShopItemUseCase.editShopItem(newValue)
-
     }
 
 
