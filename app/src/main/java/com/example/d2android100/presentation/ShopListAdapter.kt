@@ -6,19 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.d2android100.R
 import com.example.d2android100.domain.ShopItem
 
-class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.VH>() {
+class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.VH>(ShopItemDiffCallback()) {
 
     var onShopItemLongClickListener : OnShopItemLongClickListener? = null
     var onShopItemClickListener:((ShopItem)->Unit)? = null
-    var shopList = listOf<ShopItem>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+
     var count = 0
     inner class VH(view: View) : RecyclerView.ViewHolder(view){
         val count  = view.findViewById<TextView>(R.id.id1)
@@ -26,7 +24,7 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.VH>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        Log.d("ShopListAdapter", "onCreateViewHolder: count: ${++count}")
+
         var layout = when(viewType){
             ENABLED_VIEW -> R.layout.item_view_enabled
             DISABLED_VIEW -> R.layout.item_view_disabled
@@ -37,7 +35,8 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.VH>() {
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val shopItem = shopList[position]
+        Log.d("ShopListAdapter", "onBindViewHolder: count: ${++count}")
+        val shopItem = getItem(position)
         var enabled = if (shopItem.enabled){
             "Active"
         }else{
@@ -66,7 +65,7 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.VH>() {
 //    }
 
     override fun getItemViewType(position: Int): Int {
-        val item = shopList[position]
+        val item = getItem(position)
 
         return if (item.enabled){
             ENABLED_VIEW
@@ -75,7 +74,6 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.VH>() {
         }
 }
 
-    override fun getItemCount(): Int = shopList.size
 
 
 

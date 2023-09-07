@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
         setupRecylerView()
         myViewModel.shopList.observe(this) {
-            shopAdapter.shopList = it
+            shopAdapter.submitList(it)
         }
     }
 
@@ -53,18 +53,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                Log.d("DIRECTION", "onSwiped: $direction")
-                if (direction == 8) {
-                    val item = shopAdapter.shopList[viewHolder.adapterPosition]
+                    val item = shopAdapter.currentList[viewHolder.adapterPosition]
                     myViewModel.deleteShopItem(item)
-                }else{
-                    Toast.makeText(this@MainActivity, "bu chapga", Toast.LENGTH_SHORT).show()
-                    return
                 }
             }
-
-
-        }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(binding.rec)
         binding.rec.recycledViewPool.setMaxRecycledViews(
