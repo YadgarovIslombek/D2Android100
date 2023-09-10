@@ -1,5 +1,6 @@
 package com.example.d2android100.presentation
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -27,6 +28,11 @@ class MainActivity : AppCompatActivity() {
         myViewModel.shopList.observe(this) {
             shopAdapter.submitList(it)
         }
+        binding.fab.setOnClickListener{
+            val intent = Intent(this@MainActivity,ShopItemActivy::class.java)
+            intent.putExtra("STATUS","ADD")
+            startActivity(intent)
+        }
     }
 
     private fun setupRecylerView() {
@@ -39,9 +45,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         shopAdapter.onShopItemClickListener = {
-            Log.d("TAG", "setupRecylerView: $it")
+            val intent = Intent(this@MainActivity,ShopItemActivy::class.java)
+            intent.putExtra("STATUSs","EDIT")
+            startActivity(intent)
         }
-
         val callback = object :
             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(
