@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.d2android100.R
 import com.example.d2android100.databinding.ActivityMainBinding
 import com.example.d2android100.domain.ShopItem
+import com.example.d2android100.presentation.ShopItemActivy.Companion.ADD
+import com.example.d2android100.presentation.ShopItemActivy.Companion.STATUS
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myViewModel: MyViewModel
@@ -28,9 +30,8 @@ class MainActivity : AppCompatActivity() {
         myViewModel.shopList.observe(this) {
             shopAdapter.submitList(it)
         }
-        binding.fab.setOnClickListener{
-            val intent = Intent(this@MainActivity,ShopItemActivy::class.java)
-            intent.putExtra("STATUS","ADD")
+        binding.fab.setOnClickListener {
+            val intent = ShopItemActivy.newIntentAddItem(this@MainActivity)
             startActivity(intent)
         }
     }
@@ -38,15 +39,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecylerView() {
         shopAdapter = ShopListAdapter()
 
-        shopAdapter.onShopItemLongClickListener =
-            object : ShopListAdapter.OnShopItemLongClickListener {
-                override fun onShopItemLongClick(shopItem: ShopItem) {
-                    myViewModel.enabled(shopItem)
-                }
-            }
+        shopAdapter.onShopItemLongClickListener = {
+            myViewModel.enabled(it)
+        }
         shopAdapter.onShopItemClickListener = {
-            val intent = Intent(this@MainActivity,ShopItemActivy::class.java)
-            intent.putExtra("STATUSs","EDIT")
+
+            val intent = ShopItemActivy.newIntentEditItem(this@MainActivity, it.id)
             startActivity(intent)
         }
         val callback = object :
@@ -60,10 +58,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val item = shopAdapter.currentList[viewHolder.adapterPosition]
-                    myViewModel.deleteShopItem(item)
-                }
+                val item = shopAdapter.currentList[viewHolder.adapterPosition]
+                myViewModel.deleteShopItem(item)
             }
+        }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(binding.rec)
         binding.rec.recycledViewPool.setMaxRecycledViews(

@@ -22,13 +22,16 @@ class ShopItemViewModel : ViewModel() {
     val errorInputName: LiveData<Boolean>
         get() = _errorInputName
 
+
     private val _errorInputCount = MutableLiveData<Boolean>()
     val errorInputCount: LiveData<Boolean>
         get() = _errorInputCount
 
+
     private val _shopItem = MutableLiveData<ShopItem>()
     val shopItem: LiveData<ShopItem>
         get() = _shopItem
+
 
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit>
@@ -82,7 +85,7 @@ class ShopItemViewModel : ViewModel() {
             _errorInputName.value = true
             result = false
         }
-        if (count >= 0) {
+        if (count <= 0) {
             _errorInputCount.value = true
             result = false
         }

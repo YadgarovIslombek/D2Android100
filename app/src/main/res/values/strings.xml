@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">D2Android100</string>
+    <string name="error_input_name">Tovar nomi xato kiritildi</string>
+    <string name="error_input_count">Miqdor xato kiritildi\n</string>
 </resources>

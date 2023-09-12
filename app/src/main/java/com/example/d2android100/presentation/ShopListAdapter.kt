@@ -14,7 +14,7 @@ import com.example.d2android100.domain.ShopItem
 
 class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.VH>(ShopItemDiffCallback()) {
 
-    var onShopItemLongClickListener : OnShopItemLongClickListener? = null
+    var onShopItemLongClickListener : ((ShopItem)-> Unit)? = null
     var onShopItemClickListener:((ShopItem)->Unit)? = null
 
     var count = 0
@@ -47,7 +47,7 @@ class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.VH>(ShopItemDiffCal
         holder.count.text = shopItem.count.toString()
 
         holder.itemView.setOnLongClickListener{
-            onShopItemLongClickListener?.onShopItemLongClick(shopItem)
+            onShopItemLongClickListener?.invoke(shopItem)
             true
         }
         holder.itemView.setOnClickListener {
@@ -77,9 +77,7 @@ class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.VH>(ShopItemDiffCal
 
 
 
-    interface OnShopItemLongClickListener{
-        fun onShopItemLongClick(shopItem: ShopItem)
-    }
+
 
     companion object {
         const val ENABLED_VIEW = 0
