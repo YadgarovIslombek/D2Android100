@@ -5,6 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container_id"
-    android:name="com.example.d2android100.presentation.ShopItemFragment"
     tools:layout="@layout/fragment_shop_item"
     tools:context=".presentation.ShopItemActivy"/>

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -31,10 +32,28 @@ class MainActivity : AppCompatActivity() {
             shopAdapter.submitList(it)
         }
         binding.fab.setOnClickListener {
-            val intent = ShopItemActivy.newIntentAddItem(this@MainActivity)
-            startActivity(intent)
+            binding.apply {
+                if (fragmentContainerView == null){
+
+                    val intent = ShopItemActivy.newIntentAddItem(this@MainActivity)
+                    startActivity(intent)
+                }else{
+                    launchFragment(ShopItemFragment.newIntanseItemAdd(),"add")
+                }
+            }
         }
     }
+    fun launchFragment(fragment: Fragment,s:String){
+
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,fragment).
+            addToBackStack(s).commit()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        supportFragmentManager.popBackStack("add",0)
+    }
+
 
     private fun setupRecylerView() {
         shopAdapter = ShopListAdapter()
@@ -43,9 +62,12 @@ class MainActivity : AppCompatActivity() {
             myViewModel.enabled(it)
         }
         shopAdapter.onShopItemClickListener = {
-
-            val intent = ShopItemActivy.newIntentEditItem(this@MainActivity, it.id)
-            startActivity(intent)
+            if (binding.fragmentContainerView == null) {
+                val intent = ShopItemActivy.newIntentEditItem(this@MainActivity, it.id)
+                startActivity(intent)
+            }else{
+                launchFragment(ShopItemFragment.newIntanseItemEdit(it.id),"edit")
+            }
         }
         val callback = object :
             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
