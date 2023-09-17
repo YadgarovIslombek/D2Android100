@@ -1,6 +1,5 @@
 package com.example.d2android100.presentation
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -22,6 +21,15 @@ class ShopItemFragment(
     private var screenStatus: String = UNKOWN
     private  var shopItemID: Int = ShopItem.UNDEFINED_ID
     var binding: FragmentShopItemBinding? = null
+    private lateinit var editListen:editListener
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is editListener){
+            editListen = context
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,10 +73,13 @@ class ShopItemFragment(
 
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
 //            requireActivity().onBackPressed()
-            activity?.onBackPressed()
+//            (activity as MainActivity).getEditListener();
 
 //            val onBackPressedDispatcher = activity?.onBackPressedDispatcher
 //            onBackPressedDispatcher?.onBackPressed()
+
+            editListen.onEditListenerFinished()
+
         }
         return binding?.root
     }
@@ -147,6 +158,10 @@ class ShopItemFragment(
         }
 
 
+    }
+
+    interface editListener{
+        fun onEditListenerFinished()
     }
 
     //

@@ -1,11 +1,7 @@
 package com.example.d2android100.presentation
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,11 +9,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.d2android100.R
 import com.example.d2android100.databinding.ActivityMainBinding
-import com.example.d2android100.domain.ShopItem
-import com.example.d2android100.presentation.ShopItemActivy.Companion.ADD
-import com.example.d2android100.presentation.ShopItemActivy.Companion.STATUS
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),ShopItemFragment.editListener {
     private lateinit var myViewModel: MyViewModel
     lateinit var binding: ActivityMainBinding
     lateinit var shopAdapter: ShopListAdapter
@@ -95,6 +88,12 @@ class MainActivity : AppCompatActivity() {
             ShopListAdapter.POOL_SIZE
         )
         binding.rec.adapter = shopAdapter
+    }
+
+
+    override fun onEditListenerFinished() {
+        supportFragmentManager.popBackStack()
+        Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
     }
 
 

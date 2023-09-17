@@ -7,12 +7,13 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.d2android100.R
 import com.example.d2android100.databinding.ActivityShopItemActivyBinding
 import com.example.d2android100.domain.ShopItem
 
-class ShopItemActivy : AppCompatActivity() {
+class ShopItemActivy : AppCompatActivity(),ShopItemFragment.editListener {
 
     lateinit var binding: ActivityShopItemActivyBinding
     private var screenStatus= UNKOWN
@@ -77,5 +78,10 @@ class ShopItemActivy : AppCompatActivity() {
                 return intent
             }
         }
+
+    override fun onEditListenerFinished() {
+        Toast.makeText(this@ShopItemActivy, "Success", Toast.LENGTH_SHORT).show()
+        finish()
+    }
 
 }
