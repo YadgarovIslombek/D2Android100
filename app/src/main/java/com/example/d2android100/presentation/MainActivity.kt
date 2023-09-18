@@ -1,8 +1,9 @@
 package com.example.d2android100.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -10,16 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.d2android100.R
 import com.example.d2android100.databinding.ActivityMainBinding
 
+
 class MainActivity : AppCompatActivity(),ShopItemFragment.editListener {
     private lateinit var myViewModel: MyViewModel
     lateinit var binding: ActivityMainBinding
     lateinit var shopAdapter: ShopListAdapter
-    private var count = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
+
+
         setupRecylerView()
         myViewModel.shopList.observe(this) {
             shopAdapter.submitList(it)
@@ -55,11 +59,16 @@ class MainActivity : AppCompatActivity(),ShopItemFragment.editListener {
             myViewModel.enabled(it)
         }
         shopAdapter.onShopItemClickListener = {
+            Log.d(
+                "CHECKER",
+                "ShopItem: id ${it._id} name ${it.name} " +
+                        "count ${it.count} state ${it.enabled}"
+            )
             if (binding.fragmentContainerView == null) {
-                val intent = ShopItemActivy.newIntentEditItem(this@MainActivity, it.id)
+                val intent = ShopItemActivy.newIntentEditItem(this@MainActivity, it._id)
                 startActivity(intent)
             }else{
-                launchFragment(ShopItemFragment.newIntanseItemEdit(it.id),"edit")
+                launchFragment(ShopItemFragment.newIntanseItemEdit(it._id),"edit")
             }
         }
         val callback = object :

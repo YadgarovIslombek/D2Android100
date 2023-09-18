@@ -1,5 +1,6 @@
 package com.example.d2android100.presentation
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -116,7 +117,7 @@ class ShopItemFragment(
 
         viewModel.getShopById(shopItemID)
         viewModel.shopItem.observe(viewLifecycleOwner) {
-            binding?.name?.setText(it.item_name.toString())
+            binding?.name?.setText(it.name.toString())
             binding?.count?.setText(it.count.toString())
         }
         binding?.apply {

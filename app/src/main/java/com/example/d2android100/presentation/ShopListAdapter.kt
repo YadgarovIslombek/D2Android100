@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.d2android100.R
@@ -42,7 +40,7 @@ class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.VH>(ShopItemDiffCal
         }else{
             "Non Active"
         }
-        holder.name.text = "${shopItem.item_name} $enabled"
+        holder.name.text = "${shopItem.name} $enabled"
 
         holder.count.text = shopItem.count.toString()
 

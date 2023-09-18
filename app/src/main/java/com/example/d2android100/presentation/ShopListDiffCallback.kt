@@ -16,7 +16,7 @@ class ShopListDiffCallback(
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldShopList[oldItemPosition].id == newShopList[newItemPosition].id
+        return oldShopList[oldItemPosition]._id == newShopList[newItemPosition]._id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

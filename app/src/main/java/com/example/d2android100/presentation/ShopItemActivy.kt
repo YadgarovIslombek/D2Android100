@@ -4,11 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.example.d2android100.R
 import com.example.d2android100.databinding.ActivityShopItemActivyBinding
 import com.example.d2android100.domain.ShopItem
