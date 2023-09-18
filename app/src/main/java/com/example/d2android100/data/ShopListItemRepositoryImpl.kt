@@ -25,31 +25,33 @@ class ShopListItemRepositoryImpl(application: Application) : ShopItemRepository 
 //    }
     override  fun addShopItem(shopItem: ShopItem) {
             db.shopItemDao()
-                .addShopItem(mapper.mapEntityToDbModel(shopItem))
+                .addShopItem(shopItem)
 
     }
 
     override fun editShopItem(shopItem: ShopItem) {
 
         db.shopItemDao()
-                .editShopItem(mapper.mapEntityToDbModel(shopItem))
+                .addShopItem(shopItem)
 
     }
 
     override fun deleteShopItem(shopItem: ShopItem) {
 //        list.remove(shopItem)
-        db.shopItemDao().deleteShopItem(shopItem._id)
+        db.shopItemDao().deleteShopItem(shopItem.id)
     }
 
-    override fun getShopItemList(): LiveData<List<ShopItem>> =
-        MediatorLiveData<List<ShopItem>>().apply {
+    override fun getShopItemList(): LiveData<List<ShopItem>> {
+
+        return  MediatorLiveData<List<ShopItem>>().apply {
             addSource(db.shopItemDao().getShopItemList()) {
-                value = mapper.mapListDbModelToListEntity(it)
+                value = it
             }
         }
+    }
 
     override fun getShopItemById(id: Int): ShopItem =
-        mapper.mapDbModelToEntity(db.shopItemDao().getShopItemById(id))
+        db.shopItemDao().getShopItemById(id)
 
 
 //    private fun update_ld() {

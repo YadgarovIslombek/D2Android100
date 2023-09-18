@@ -14,7 +14,6 @@ class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.VH>(ShopItemDiffCal
 
     var onShopItemLongClickListener : ((ShopItem)-> Unit)? = null
     var onShopItemClickListener:((ShopItem)->Unit)? = null
-
     var count = 0
     inner class VH(view: View) : RecyclerView.ViewHolder(view){
         val count  = view.findViewById<TextView>(R.id.id1)
@@ -35,12 +34,8 @@ class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.VH>(ShopItemDiffCal
     override fun onBindViewHolder(holder: VH, position: Int) {
         Log.d("ShopListAdapter", "onBindViewHolder: count: ${++count}")
         val shopItem = getItem(position)
-        var enabled = if (shopItem.enabled){
-            "Active"
-        }else{
-            "Non Active"
-        }
-        holder.name.text = "${shopItem.name} $enabled"
+
+        holder.name.text = "${shopItem.name}"
 
         holder.count.text = shopItem.count.toString()
 

@@ -11,7 +11,7 @@ import com.example.d2android100.domain.ShopItem
 import com.example.d2android100.domain.ShopItemDAO
 
 
-@Database(entities = [ShopItemDbModel::class], version = 1)
+@Database(entities = [ShopItem::class], version = 1)
 abstract class AppDatabase:RoomDatabase() {
     abstract fun shopItemDao():ShopItemDAO
 
