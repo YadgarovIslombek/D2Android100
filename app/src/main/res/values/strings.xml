@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">D2Android100</string>
+    <string name="error_input_name">Tovar nomi xato kiritildi</string>
+    <string name="error_input_count">Miqdor xato kiritildi\n</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
