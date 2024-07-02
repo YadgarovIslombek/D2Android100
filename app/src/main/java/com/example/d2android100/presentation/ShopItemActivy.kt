@@ -13,7 +13,7 @@ class ShopItemActivy : AppCompatActivity(),ShopItemFragment.editListener {
 
     lateinit var binding: ActivityShopItemActivyBinding
     private var screenStatus= UNKOWN
-    private var shopItemId= ShopItem.UNDEFINED_ID
+    private var shopItemId= -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class ShopItemActivy : AppCompatActivity(),ShopItemFragment.editListener {
             if (!intent.hasExtra(SHOP_ID)) {
                 throw RuntimeException("EDIT STATUSDA ID KELMADI")
             }
-            shopItemId = intent.getIntExtra(SHOP_ID, ShopItem.UNDEFINED_ID)
+            shopItemId = intent.getIntExtra(SHOP_ID, -1)
 
         }
     }

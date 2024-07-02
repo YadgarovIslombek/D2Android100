@@ -20,7 +20,7 @@ class ShopItemFragment(
 ) : Fragment() {
     lateinit var viewModel: ShopItemViewModel
     private var screenStatus: String = UNKOWN
-    private  var shopItemID: Int = ShopItem.UNDEFINED_ID
+    private  var shopItemID: Int = -1
     var binding: FragmentShopItemBinding? = null
     private lateinit var editListen:editListener
 
@@ -154,7 +154,7 @@ class ShopItemFragment(
             if (!args.containsKey(SHOP_ID)) {
                 throw RuntimeException("EDIT STATUSDA ID KELMADI")
             }
-            shopItemID = args.getInt(ShopItemActivy.SHOP_ID, ShopItem.UNDEFINED_ID)
+            shopItemID = args.getInt(ShopItemActivy.SHOP_ID, -1)
 
         }
 
