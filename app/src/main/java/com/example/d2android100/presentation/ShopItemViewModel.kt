@@ -45,7 +45,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         val count = parseCount(inputCount)
         val validateInput = validateInput(name, count)
         if (validateInput) {
-            val item = ShopItem(name, count, true)
+            val item = ShopItem(0,name, count, true)
             addShopItemUseCase.addShopItem(item)
             finishWork()
         }

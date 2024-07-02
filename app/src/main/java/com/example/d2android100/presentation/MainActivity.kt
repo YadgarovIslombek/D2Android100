@@ -61,14 +61,14 @@ class MainActivity : AppCompatActivity(),ShopItemFragment.editListener {
         shopAdapter.onShopItemClickListener = {
             Log.d(
                 "CHECKER",
-                "ShopItem: id ${it._id} name ${it.name} " +
+                "ShopItem: id ${it.id} name ${it.name} " +
                         "count ${it.count} state ${it.enabled}"
             )
             if (binding.fragmentContainerView == null) {
-                val intent = ShopItemActivy.newIntentEditItem(this@MainActivity, it._id)
+                val intent = ShopItemActivy.newIntentEditItem(this@MainActivity, it.id)
                 startActivity(intent)
             }else{
-                launchFragment(ShopItemFragment.newIntanseItemEdit(it._id),"edit")
+                launchFragment(ShopItemFragment.newIntanseItemEdit(it.id),"edit")
             }
         }
         val callback = object :

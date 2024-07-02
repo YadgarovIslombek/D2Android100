@@ -12,14 +12,14 @@ import com.example.d2android100.data.ShopItemDbModel
 @Dao
 interface ShopItemDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addShopItem(shopItemDbModel: ShopItemDbModel)
+    fun addShopItem(shopItem: ShopItem)
     @Update
-    fun editShopItem(shopItemDbModel: ShopItemDbModel)
+    fun editShopItem(shopItem: ShopItem)
 
     @Query("DELETE FROM shop_items WHERE id = :id")
     fun deleteShopItem(id: Int)
     @Query("Select * from shop_items")
-    fun getShopItemList(): LiveData<List<ShopItemDbModel>>
+    fun getShopItemList(): LiveData<List<ShopItem>>
     @Query("Select * from shop_items where id = :id LIMIT 1")
-    fun getShopItemById(id:Int): ShopItemDbModel
+    fun getShopItemById(id:Int): ShopItem
 }
